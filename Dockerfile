@@ -3,7 +3,7 @@ FROM nvidia/cuda:12.2.2-cudnn8-runtime-ubuntu22.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV CONDA_DIR=/opt/conda
 ENV PATH=$CONDA_DIR/bin:$PATH
-
+ARG CACHE_BUST=1
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     curl \
@@ -30,7 +30,7 @@ EXPOSE 22
 # Switch to user home and clone repo
 USER devuser
 WORKDIR /home/devuser
-RUN git clone https://github.com/nova-tis/DiffusionLight.git
+RUN git clone https://github.com/nova-tis/DiffusionLight.git && echo $CACHE_BUST
 WORKDIR /home/devuser/DiffusionLight
 # Create the Conda environment
 RUN /bin/bash -c "source $CONDA_DIR/etc/profile.d/conda.sh && \
