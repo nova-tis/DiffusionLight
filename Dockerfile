@@ -37,12 +37,18 @@ RUN /bin/bash -c "source $CONDA_DIR/etc/profile.d/conda.sh && \
     conda env create -f environment.yml && \
     conda activate diffusionlight && \
     pip install -r requirements.txt"
-
+RUN pip install --no-cache-dir runpod
 # Activate the conda environment and set up default shell
 RUN echo "source /opt/conda/etc/profile.d/conda.sh && conda activate diffusionlight" >> ~/.bashrc
 
-# Switch back to root for SSH service
-USER root
+COPY rp_handler.py /home/devuser
 
-# Start SSH daemon
-CMD ["/usr/sbin/sshd", "-D"]
+# # Switch back to root for SSH service
+# # USER root
+# # Start SSH daemon
+# # CMD ["/usr/sbin/sshd", "-D"]
+# USER devuser
+CMD ["python3", "-u", "rp_handler.py"]
+
+# docker buildx build --platform linux/amd64 -t diffusionlight-gpu .
+#
