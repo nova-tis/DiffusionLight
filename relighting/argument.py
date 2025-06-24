@@ -8,30 +8,56 @@ def get_control_signal_type(controlnet):
         return "depth"
     else:
         raise NotImplementedError
+# models from hugging face kept for reference if needed for download in dockerfile
+# SD_MODELS = {
+#     "sd15_old": "runwayml/stable-diffusion-inpainting",
+#     "sd15_new": "runwayml/stable-diffusion-inpainting",
+#     "sd21": "stabilityai/stable-diffusion-2-inpainting",
+#     "sdxl": "stabilityai/stable-diffusion-xl-base-1.0",
+#     "sdxl_fast": "stabilityai/stable-diffusion-xl-base-1.0",
+#     "sdxl_turbo": "stabilityai/sdxl-turbo",
+#     "sd15_depth": "runwayml/stable-diffusion-inpainting",
+# }
+
+# VAE_MODELS = {
+#     "sdxl": "madebyollin/sdxl-vae-fp16-fix",
+#     "sdxl_fast": "madebyollin/sdxl-vae-fp16-fix",
+# }
+
+# CONTROLNET_MODELS = {
+#     "sd15_old": "fusing/stable-diffusion-v1-5-controlnet-normal",
+#     "sd15_new": "lllyasviel/control_v11p_sd15_normalbae",
+#     "sd21": "thibaud/controlnet-sd21-normalbae-diffusers",
+#     "sdxl": "diffusers/controlnet-depth-sdxl-1.0",
+#     "sdxl_fast": "diffusers/controlnet-depth-sdxl-1.0-small",
+#     "sdxl_turbo": "diffusers/controlnet-depth-sdxl-1.0-small",
+#     "sd15_depth": "lllyasviel/control_v11f1p_sd15_depth",
+# }
+
 
 SD_MODELS = {
-    "sd15_old": "runwayml/stable-diffusion-inpainting",
-    "sd15_new": "runwayml/stable-diffusion-inpainting",
-    "sd21": "stabilityai/stable-diffusion-2-inpainting",
-    "sdxl": "stabilityai/stable-diffusion-xl-base-1.0",
-    "sdxl_fast": "stabilityai/stable-diffusion-xl-base-1.0",
-    "sdxl_turbo": "stabilityai/sdxl-turbo",
-    "sd15_depth": "runwayml/stable-diffusion-inpainting",
+    "sd15_old": "/models/stable-diffusion-inpainting",
+    "sd15_new": "/models/stable-diffusion-inpainting",
+    "sd21": "/models/stable-diffusion-2-inpainting",
+    "sdxl": "/models/stable-diffusion-xl-base-1.0",
+    "sdxl_fast": "/models/stable-diffusion-xl-base-1.0",
+    "sdxl_turbo": "/models/sdxl-turbo",
+    "sd15_depth": "/models/stable-diffusion-inpainting",
 }
 
 VAE_MODELS = {
-    "sdxl": "madebyollin/sdxl-vae-fp16-fix",
-    "sdxl_fast": "madebyollin/sdxl-vae-fp16-fix",
+    "sdxl": "/models/sdxl-vae-fp16-fix",
+    "sdxl_fast": "/models/sdxl-vae-fp16-fix",
 }
 
 CONTROLNET_MODELS = {
-    "sd15_old": "fusing/stable-diffusion-v1-5-controlnet-normal",
-    "sd15_new": "lllyasviel/control_v11p_sd15_normalbae",
-    "sd21": "thibaud/controlnet-sd21-normalbae-diffusers",
-    "sdxl": "diffusers/controlnet-depth-sdxl-1.0",
-    "sdxl_fast": "diffusers/controlnet-depth-sdxl-1.0-small",
-    "sdxl_turbo": "diffusers/controlnet-depth-sdxl-1.0-small",
-    "sd15_depth": "lllyasviel/control_v11f1p_sd15_depth",
+    "sd15_old": "/models/stable-diffusion-v1-5-controlnet-normal",
+    "sd15_new": "/models/control_v11p_sd15_normalbae",
+    "sd21": "/models/controlnet-sd21-normalbae-diffusers",
+    "sdxl": "/models/controlnet-depth-sdxl-1.0",
+    "sdxl_fast": "/models/controlnet-depth-sdxl-1.0-small",
+    "sdxl_turbo": "/models/controlnet-depth-sdxl-1.0-small",
+    "sd15_depth": "/models/control_v11f1p_sd15_depth",
 }
 
 SAMPLERS = {

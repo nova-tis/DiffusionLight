@@ -23,3 +23,7 @@ diffusers==0.21.0
 transformers==4.36.0
 xformers==0.0.20
 huggingface_hub==0.19.4
+
+# General
+runpod 
+huggingface_hub
