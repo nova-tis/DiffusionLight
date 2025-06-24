@@ -49,7 +49,7 @@ COPY rp_handler.py /home/devuser
 # # Start SSH daemon
 # # CMD ["/usr/sbin/sshd", "-D"]
 # USER devuser
-CMD ["python3", "-u", "rp_handler.py"]
+CMD ["conda", "run", "-n", "diffusionlight", "python", "-u", "rp_handler.py"]
 
 # docker buildx build --platform linux/amd64 -t diffusionlight-gpu .
 #

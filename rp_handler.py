@@ -2,6 +2,7 @@ import runpod
 import time
 import base64
 import os
+import sys
 import subprocess
 from io import BytesIO
 from PIL import Image
@@ -46,9 +47,9 @@ def handler(event):
 
         # Run processing scripts
         scripts = [
-            ["python3", "inpaint.py", "--dataset", "input-image", "--output_dir", "output"],
-            ["python3", "ball2envmap.py", "--ball_dir", "output/square", "--envmap_dir", "output/envmap"],
-            ["python3", "exposure2hdr.py", "--input_dir", "output/envmap", "--output_dir", "output/hdr"]
+            [sys.executable, "inpaint.py", "--dataset", "input-image", "--output_dir", "output"],
+            [sys.executable, "ball2envmap.py", "--ball_dir", "output/square", "--envmap_dir", "output/envmap"],
+            [sys.executable, "exposure2hdr.py", "--input_dir", "output/envmap", "--output_dir", "output/hdr"]
         ]
         print(f"Current working directory: {os.getcwd()}")
         for cmd in scripts:
