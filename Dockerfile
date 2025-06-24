@@ -26,11 +26,13 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -
     rm /tmp/miniconda.sh && \
     $CONDA_DIR/bin/conda clean -afy
 
+
 # Create non-root user
 RUN useradd -ms /bin/bash devuser && \
     echo "devuser:devpassword" | chpasswd && \
     adduser devuser sudo
 
+RUN mkdir -p /models && chown devuser:devuser /models
 # SSH setup
 RUN mkdir /var/run/sshd
 EXPOSE 22
@@ -45,8 +47,8 @@ WORKDIR /home/devuser/DiffusionLight
 
 # Install Python environment using conda
 RUN /bin/bash -c "source $CONDA_DIR/etc/profile.d/conda.sh && \
-    conda env create -f environment.yml && \
-    conda run -n diffusionlight pip install -r requirements.txt "
+    conda env create -f environment.yml --yes --verbose && \
+    conda run -n diffusionlight pip install -r requirements.txt"
 
 # Set Conda to activate on shell start
 RUN echo 'source $CONDA_DIR/etc/profile.d/conda.sh && conda activate diffusionlight' >> ~/.bashrc
@@ -55,11 +57,7 @@ RUN echo 'source $CONDA_DIR/etc/profile.d/conda.sh && conda activate diffusionli
 COPY rp_handler.py /home/devuser
 
 # Download models using huggingface_hub
-RUN conda run -n diffusionlight python -c "\
-    from huggingface_hub import snapshot_download; \
-    snapshot_download('stabilityai/stable-diffusion-xl-base-1.0', local_dir='/models/stable-diffusion-xl-base-1.0'); \
-    snapshot_download('madebyollin/sdxl-vae-fp16-fix', local_dir='/models/sdxl-vae-fp16-fix'); \
-    snapshot_download('diffusers/controlnet-depth-sdxl-1.0', local_dir='/models/controlnet-depth-sdxl-1.0')"
+RUN conda run -n diffusionlight python -c "from huggingface_hub import snapshot_download; snapshot_download('stabilityai/stable-diffusion-xl-base-1.0', local_dir='/models/stable-diffusion-xl-base-1.0'); snapshot_download('madebyollin/sdxl-vae-fp16-fix', local_dir='/models/sdxl-vae-fp16-fix'); snapshot_download('diffusers/controlnet-depth-sdxl-1.0', local_dir='/models/controlnet-depth-sdxl-1.0')"
 
 # Default command to run the app
 CMD ["conda", "run", "-n", "diffusionlight", "python", "-u", "rp_handler.py"]
