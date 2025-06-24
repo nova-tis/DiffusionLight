@@ -38,6 +38,7 @@ RUN /bin/bash -c "source $CONDA_DIR/etc/profile.d/conda.sh && \
     conda activate diffusionlight && \
     pip install -r requirements.txt"
 RUN pip install --no-cache-dir runpod
+RUN pip install --no-cache-dir pillow
 # Activate the conda environment and set up default shell
 RUN echo "source /opt/conda/etc/profile.d/conda.sh && conda activate diffusionlight" >> ~/.bashrc
 
