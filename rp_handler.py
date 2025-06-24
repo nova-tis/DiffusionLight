@@ -19,9 +19,19 @@ def handler(event):
         return {"error": "No image_base64 field found in input."}
 
     try:
+        # remove prefix
+        if image_b64.startswith("data:"):
+            image_b64 = image_b64.split(",", 1)[1]
+            print(f"Removed uri prefix from base64 image")
         # Decode and save input image
-        image_data = base64.b64decode(image_b64)
-        image = Image.open(BytesIO(image_data))
+        try:
+            image_data = base64.b64decode(image_b64)
+            image = Image.open(BytesIO(image_data))
+            image.verify()  # Check if it's actually an image
+            image = Image.open(BytesIO(image_data))  # Reopen after verify
+        except Exception as e:
+            return {"error": f"Failed to load image: {str(e)}"}
+
 
         input_dir = "input-image"
         os.makedirs(input_dir, exist_ok=True)
@@ -40,7 +50,7 @@ def handler(event):
             ["python3", "ball2envmap.py", "--ball_dir", "output/square", "--envmap_dir", "output/envmap"],
             ["python3", "exposure2hdr.py", "--input_dir", "output/envmap", "--output_dir", "output/hdr"]
         ]
-
+        print(f"Current working directory: {os.getcwd()}")
         for cmd in scripts:
             print(f"Running: {' '.join(cmd)}")
             result = subprocess.run(cmd, capture_output=True, text=True)
