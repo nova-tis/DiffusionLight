@@ -38,7 +38,8 @@ def handler(event):
         os.makedirs(input_dir, exist_ok=True)
 
         timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S_%f")
-        filename = f"{input_dir}/image_{timestamp}.{image.format.lower()}"
+        ext = (image.format or "jpg").lower()
+        filename = f"{input_dir}/image_{timestamp}.{ext}"
         image.save(filename)
         print(f"Image saved to {filename}")
 
@@ -52,6 +53,7 @@ def handler(event):
             [sys.executable, "exposure2hdr.py", "--input_dir", "output/envmap", "--output_dir", "output/hdr"]
         ]
         print(f"Current working directory: {os.getcwd()}")
+        print("Contents of input-image folder:", os.listdir("input-image"))
         for cmd in scripts:
             print(f"Running: {' '.join(cmd)}")
             result = subprocess.run(cmd, capture_output=True, text=True)
