@@ -8,9 +8,15 @@ from io import BytesIO
 from PIL import Image
 from datetime import datetime
 import glob
+from huggingface_hub import snapshot_download
 
 def handler(event):
     print("Worker Start")
+    # Download if not already present
+    print("download snapshot Start")
+    snapshot_download('stabilityai/stable-diffusion-xl-base-1.0', local_dir='/models/stable-diffusion-xl-base-1.0')
+    print("download snapshot done")
+    print("input handling Start")
     input = event['input']
     
     image_b64 = input.get('image_base64')
