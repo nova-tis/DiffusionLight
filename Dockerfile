@@ -57,7 +57,8 @@ RUN echo 'source $CONDA_DIR/etc/profile.d/conda.sh && conda activate diffusionli
 COPY rp_handler.py /home/devuser
 
 # Download models using huggingface_hub
-RUN conda run -n diffusionlight python -c "from huggingface_hub import snapshot_download; snapshot_download('stabilityai/stable-diffusion-xl-base-1.0', local_dir='/models/stable-diffusion-xl-base-1.0'); snapshot_download('madebyollin/sdxl-vae-fp16-fix', local_dir='/models/sdxl-vae-fp16-fix'); snapshot_download('diffusers/controlnet-depth-sdxl-1.0', local_dir='/models/controlnet-depth-sdxl-1.0')"
+# RUN conda run -n diffusionlight python -c "from huggingface_hub import snapshot_download; snapshot_download('stabilityai/stable-diffusion-xl-base-1.0', local_dir='/models/stable-diffusion-xl-base-1.0'); snapshot_download('madebyollin/sdxl-vae-fp16-fix', local_dir='/models/sdxl-vae-fp16-fix'); snapshot_download('diffusers/controlnet-depth-sdxl-1.0', local_dir='/models/controlnet-depth-sdxl-1.0')"
 
 # Default command to run the app
-CMD ["conda", "run", "-n", "diffusionlight", "python", "-u", "rp_handler.py"]
+CMD ["/bin/bash", "-c", "source $CONDA_DIR/etc/profile.d/conda.sh && conda activate diffusionlight && python -u rp_handler.py"]
+
