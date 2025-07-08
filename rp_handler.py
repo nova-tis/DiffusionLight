@@ -15,6 +15,8 @@ def handler(event):
     # Download if not already present
     print("download snapshot Start")
     snapshot_download('stabilityai/stable-diffusion-xl-base-1.0', local_dir='/models/stable-diffusion-xl-base-1.0')
+    snapshot_download('madebyollin/sdxl-vae-fp16-fix', local_dir='/models/sdxl-vae-fp16-fix') 
+    snapshot_download('diffusers/controlnet-depth-sdxl-1.0', local_dir='/models/controlnet-depth-sdxl-1.0')
     print("download snapshot done")
     print("input handling Start")
     input = event['input']
