@@ -36,28 +36,28 @@ def get_control_signal_type(controlnet):
 
 
 SD_MODELS = {
-    "sd15_old": "/models/stable-diffusion-inpainting",
-    "sd15_new": "/models/stable-diffusion-inpainting",
-    "sd21": "/models/stable-diffusion-2-inpainting",
-    "sdxl": "/models/stable-diffusion-xl-base-1.0",
-    "sdxl_fast": "/models/stable-diffusion-xl-base-1.0",
-    "sdxl_turbo": "/models/sdxl-turbo",
-    "sd15_depth": "/models/stable-diffusion-inpainting",
+    "sd15_old": "/runpod-volume/models/stable-diffusion-inpainting",
+    "sd15_new": "/runpod-volume/models/stable-diffusion-inpainting",
+    "sd21": "/runpod-volume/models/stable-diffusion-2-inpainting",
+    "sdxl": "/runpod-volume/models/stable-diffusion-xl-base-1.0",
+    "sdxl_fast": "/runpod-volume/models/stable-diffusion-xl-base-1.0",
+    "sdxl_turbo": "/runpod-volume/models/sdxl-turbo",
+    "sd15_depth": "/runpod-volume/models/stable-diffusion-inpainting",
 }
 
 VAE_MODELS = {
-    "sdxl": "/models/sdxl-vae-fp16-fix",
-    "sdxl_fast": "/models/sdxl-vae-fp16-fix",
+    "sdxl": "/runpod-volume/models/sdxl-vae-fp16-fix",
+    "sdxl_fast": "/runpod-volume/models/sdxl-vae-fp16-fix",
 }
 
 CONTROLNET_MODELS = {
-    "sd15_old": "/models/stable-diffusion-v1-5-controlnet-normal",
-    "sd15_new": "/models/control_v11p_sd15_normalbae",
-    "sd21": "/models/controlnet-sd21-normalbae-diffusers",
-    "sdxl": "/models/controlnet-depth-sdxl-1.0",
-    "sdxl_fast": "/models/controlnet-depth-sdxl-1.0-small",
-    "sdxl_turbo": "/models/controlnet-depth-sdxl-1.0-small",
-    "sd15_depth": "/models/control_v11f1p_sd15_depth",
+    "sd15_old": "/runpod-volume/models/stable-diffusion-v1-5-controlnet-normal",
+    "sd15_new": "/runpod-volume/models/control_v11p_sd15_normalbae",
+    "sd21": "/runpod-volume/models/controlnet-sd21-normalbae-diffusers",
+    "sdxl": "/runpod-volume/models/controlnet-depth-sdxl-1.0",
+    "sdxl_fast": "/runpod-volume/models/controlnet-depth-sdxl-1.0-small",
+    "sdxl_turbo": "/runpod-volume/models/controlnet-depth-sdxl-1.0-small",
+    "sd15_depth": "/runpod-volume/models/control_v11f1p_sd15_depth",
 }
 
 SAMPLERS = {
