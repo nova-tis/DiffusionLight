@@ -47,6 +47,8 @@ WORKDIR /home/devuser/DiffusionLight
 
 # Install Python environment using conda
 RUN /bin/bash -c "source $CONDA_DIR/etc/profile.d/conda.sh && \
+    conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main && \
+    conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r && \
     conda env create -f environment.yml --yes --verbose && \
     conda run -n diffusionlight pip install -r requirements.txt"
 
