@@ -10,14 +10,15 @@ from datetime import datetime
 import glob
 from huggingface_hub import snapshot_download
 
-def handler(event):
-    print("Worker Start")
+def modelprep():
     # Download if not already present
     print("download snapshot Start")
     snapshot_download('stabilityai/stable-diffusion-xl-base-1.0', local_dir='/models/stable-diffusion-xl-base-1.0')
     snapshot_download('madebyollin/sdxl-vae-fp16-fix', local_dir='/models/sdxl-vae-fp16-fix') 
     snapshot_download('diffusers/controlnet-depth-sdxl-1.0', local_dir='/models/controlnet-depth-sdxl-1.0')
     print("download snapshot done")
+
+def handler(event):
     print("input handling Start")
     input = event['input']
     
@@ -96,4 +97,6 @@ def handler(event):
         return {"error": str(e)}
 
 if __name__ == '__main__':
+    print("Worker Start")
+    modelprep()
     runpod.serverless.start({'handler': handler})
