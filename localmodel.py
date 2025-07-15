@@ -8,17 +8,17 @@ def modelprep():
 
     print("download snapshot Start")
     snapshot_download('stabilityai/stable-diffusion-xl-base-1.0',
-                      local_dir='/Users/joep/freelance/nova/DiffusionLight/models',
+                      local_dir='/Users/joep/freelance/nova/DiffusionLight/models/stable-diffusion-xl-base-1.0',
                       token=hf_token,
                       resume_download=True)
 
     snapshot_download('madebyollin/sdxl-vae-fp16-fix',
-                      local_dir='/Users/joep/freelance/nova/DiffusionLight/models',
+                      local_dir='/Users/joep/freelance/nova/DiffusionLight/models/sdxl-vae-fp16-fix',
                       token=hf_token,
                       resume_download=True)
 
     snapshot_download('diffusers/controlnet-depth-sdxl-1.0',
-                      local_dir='/Users/joep/freelance/nova/DiffusionLight/models',
+                      local_dir='/Users/joep/freelance/nova/DiffusionLight/models/controlnet-depth-sdxl-1.0',
                       token=hf_token,
                       resume_download=True)
 
