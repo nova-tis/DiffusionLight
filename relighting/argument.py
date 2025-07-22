@@ -36,28 +36,28 @@ def get_control_signal_type(controlnet):
 
 
 SD_MODELS = {
-    "sd15_old": "/runpod-volume/stable-diffusion-inpainting",
-    "sd15_new": "/runpod-volume/stable-diffusion-inpainting",
-    "sd21": "/runpod-volume/stable-diffusion-2-inpainting",
-    "sdxl": "/runpod-volume/stable-diffusion-xl-base-1.0",
-    "sdxl_fast": "/runpod-volume/stable-diffusion-xl-base-1.0",
-    "sdxl_turbo": "/runpod-volume/sdxl-turbo",
-    "sd15_depth": "/runpod-volume/stable-diffusion-inpainting",
+    "sd15_old": "/data/models/stable-diffusion-inpainting",
+    "sd15_new": "/data/models/stable-diffusion-inpainting",
+    "sd21": "/data/models/stable-diffusion-2-inpainting",
+    "sdxl": "/data/models/stable-diffusion-xl-base-1.0",
+    "sdxl_fast": "/data/models/stable-diffusion-xl-base-1.0",
+    "sdxl_turbo": "/data/models/sdxl-turbo",
+    "sd15_depth": "/data/models/stable-diffusion-inpainting",
 }
 
 VAE_MODELS = {
-    "sdxl": "/runpod-volume/sdxl-vae-fp16-fix",
-    "sdxl_fast": "/runpod-volume/sdxl-vae-fp16-fix",
+    "sdxl": "/data/models/sdxl-vae-fp16-fix",
+    "sdxl_fast": "/data/models/sdxl-vae-fp16-fix",
 }
 
 CONTROLNET_MODELS = {
-    "sd15_old": "/runpod-volume/stable-diffusion-v1-5-controlnet-normal",
-    "sd15_new": "/runpod-volume/control_v11p_sd15_normalbae",
-    "sd21": "/runpod-volume/controlnet-sd21-normalbae-diffusers",
-    "sdxl": "/runpod-volume/controlnet-depth-sdxl-1.0",
-    "sdxl_fast": "/runpod-volume/controlnet-depth-sdxl-1.0-small",
-    "sdxl_turbo": "/runpod-volume/controlnet-depth-sdxl-1.0-small",
-    "sd15_depth": "/runpod-volume/control_v11f1p_sd15_depth",
+    "sd15_old": "/data/models/stable-diffusion-v1-5-controlnet-normal",
+    "sd15_new": "/data/models/control_v11p_sd15_normalbae",
+    "sd21": "/data/models/controlnet-sd21-normalbae-diffusers",
+    "sdxl": "/data/models/controlnet-depth-sdxl-1.0",
+    "sdxl_fast": "/data/models/controlnet-depth-sdxl-1.0-small",
+    "sdxl_turbo": "/data/models/controlnet-depth-sdxl-1.0-small",
+    "sd15_depth": "/data/models/control_v11f1p_sd15_depth",
 }
 
 SAMPLERS = {

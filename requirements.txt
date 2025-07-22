@@ -27,3 +27,5 @@ huggingface_hub==0.19.4
 # General
 runpod 
 huggingface_hub
+fastapi
+uvicorn

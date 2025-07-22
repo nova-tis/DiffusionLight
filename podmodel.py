@@ -8,19 +8,19 @@ def modelprep():
 
     print("download snapshot Start")
     snapshot_download('stabilityai/stable-diffusion-xl-base-1.0',
-                      local_dir='/workspace/stable-diffusion-xl-base-1.0',
+                      local_dir='/data/models/stable-diffusion-xl-base-1.0',
                       token=hf_token,
                       force_download=True,
                       resume_download=False)
 
     snapshot_download('madebyollin/sdxl-vae-fp16-fix',
-                      local_dir='/workspace/sdxl-vae-fp16-fix',
+                      local_dir='/data/models/sdxl-vae-fp16-fix',
                       token=hf_token,
                       force_download=True,
                       resume_download=False)
 
     snapshot_download('diffusers/controlnet-depth-sdxl-1.0',
-                      local_dir='/workspace/controlnet-depth-sdxl-1.0',
+                      local_dir='/data/models/controlnet-depth-sdxl-1.0',
                       token=hf_token,
                       force_download=True,
                       resume_download=False)
