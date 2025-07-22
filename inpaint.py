@@ -212,7 +212,7 @@ def main():
     if (args.lora_path is not None) and (args.use_lora):
         print(f"using lora path {args.lora_path}")
         print(f"using lora scale {args.lora_scale}")
-        pipe.pipeline.load_lora_weights(args.lora_path)
+        pipe.pipeline.load_lora_weights(args.lora_path,local_files_only=True)
         pipe.pipeline.fuse_lora(lora_scale=args.lora_scale) # fuse lora weight w' = w + \alpha \Delta w
         enabled_lora = True
     else:
