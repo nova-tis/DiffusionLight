@@ -72,7 +72,7 @@ def create_argparser():
     parser.add_argument('--no_lora', dest='use_lora', action='store_false', help='by default we using lora, we have option to disable to see the different')
     parser.set_defaults(use_lora=True)
 
-    parser.add_argument("--lora_path", default="models/ThisIsTheFinal-lora-hdr-continuous-largeT@900/0_-5/checkpoint-2500", type=str, help="LoRA Checkpoint path")
+    parser.add_argument("--lora_path", default="/data/models/ThisIsTheFinal-lora-hdr-continuous-largeT@900/0_-5/checkpoint-2500", type=str, help="LoRA Checkpoint path")
     parser.add_argument("--lora_scale", default=0.75, type=float, help="LoRA scale factor")
 
     # speed optimization stuff
