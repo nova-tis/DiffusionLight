@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException, BackgroundTasks
+from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import JSONResponse, FileResponse
 import os
 import io
@@ -29,7 +29,7 @@ def log(message: str):
         log_file.write(full_message + "\n")
 
 # Run pipeline
-def run_processing_pipeline(input_filename: str):
+def run_processing_pipeline(input_filename: str) -> str:
     try:
         scripts = [
             [sys.executable, "inpaint.py", "--dataset", "input-image", "--output_dir", "output"],
@@ -41,7 +41,7 @@ def run_processing_pipeline(input_filename: str):
             result = subprocess.run(cmd, capture_output=True, text=True)
             if result.returncode != 0:
                 log(f"❌ Error in {cmd[0]}:\n{result.stderr}")
-                return
+                raise RuntimeError(f"Pipeline failed: {cmd[0]}")
             else:
                 log(f"✅ {cmd[0]} completed successfully.")
                 log(f"↪ stdout:\n{result.stdout.strip()}")
@@ -53,24 +53,32 @@ def run_processing_pipeline(input_filename: str):
         dst_dir = "/data/output"
         os.makedirs(dst_dir, exist_ok=True)
 
+        hdr_path = None
         for filename in os.listdir(src_dir):
             src_path = os.path.join(src_dir, filename)
             dst_path = os.path.join(dst_dir, filename)
             shutil.move(src_path, dst_path)
             log(f"Moved {src_path} → {dst_path}")
+            hdr_path = dst_path  # Assume first HDR is result
+
+        if hdr_path is None:
+            raise FileNotFoundError("No HDR file produced.")
+
+        return hdr_path
 
     except Exception as e:
         log(f"Exception during processing: {e}")
+        raise
 
-# Upload endpoint
+# Upload + process endpoint (blocking)
 @app.post("/process-image/")
-async def process_image(file: UploadFile = File(...), background_tasks: BackgroundTasks = None):
+async def process_image(file: UploadFile = File(...)):
     if not file:
         raise HTTPException(status_code=400, detail="No file uploaded")
 
     try:
         contents = await file.read()
-        Image.open(io.BytesIO(contents))  # Validate image
+        Image.open(io.BytesIO(contents))  # Validate it's an image
     except UnidentifiedImageError:
         raise HTTPException(status_code=400, detail="Uploaded file is not a valid image")
 
@@ -80,47 +88,30 @@ async def process_image(file: UploadFile = File(...), background_tasks: Backgrou
     input_filename = f"{timestamp}_{clean_filename}"
     input_path = f"input-image/{input_filename}"
 
-    # Save input image
+    # Save image
     with open(input_path, "wb") as f:
         f.write(contents)
 
-    # Clear and start new log
+    # Clear log
     with open(LOG_PATH, "w") as f:
-        f.write(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] New processing started for {input_filename}\n")
+        f.write(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Starting job for {input_filename}\n")
 
-    # Start background task
-    background_tasks.add_task(run_processing_pipeline, input_filename)
+    # Run pipeline (blocking)
+    try:
+        hdr_path = run_processing_pipeline(input_filename)
+        with open(hdr_path, "rb") as f:
+            hdr_encoded = base64.b64encode(f.read()).decode("utf-8")
 
-    return JSONResponse(content={
-        "status": "uploaded",
-        "input_path": input_path,
-        "fetch_url": f"/get-hdr/{input_filename}"
-    })
-
-# HDR fetch endpoint
-@app.get("/get-hdr/{filename}")
-def get_hdr(filename: str):
-    expected_hdr_pattern = f"/data/output/*{filename.split('.')[0]}*.hdr"
-    hdr_files = glob.glob(expected_hdr_pattern)
-
-    if not hdr_files:
-        return JSONResponse(status_code=202, content={
-            "status": "processing",
-            "detail": "HDR not yet available. Please check back later.",
-            "filename": filename
+        return JSONResponse(content={
+            "status": "complete",
+            "filename": os.path.basename(hdr_path),
+            "hdr_base64": hdr_encoded
         })
 
-    hdr_path = hdr_files[0]
-    with open(hdr_path, "rb") as f:
-        hdr_encoded = base64.b64encode(f.read()).decode("utf-8")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Processing failed: {str(e)}")
 
-    return JSONResponse(content={
-        "status": "complete",
-        "filename": os.path.basename(hdr_path),
-        "hdr_base64": hdr_encoded
-    })
-
-# Log download endpoint
+# Log file download
 @app.get("/logs")
 def get_logs():
     if not os.path.exists(LOG_PATH):
@@ -128,7 +119,7 @@ def get_logs():
 
     return FileResponse(LOG_PATH, media_type="text/plain", filename="pipeline.log")
 
-# Health and root endpoints
+# Health + root endpoints
 @app.get("/")
 def root():
     return {"message": "Image processing API is running."}
