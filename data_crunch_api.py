@@ -48,23 +48,15 @@ def run_processing_pipeline(input_filename: str) -> str:
 
         log("HDR pipeline completed successfully.")
 
-        # Move HDR files to /data/output
-        src_dir = "output/hdr"
-        dst_dir = "/data/output"
-        os.makedirs(dst_dir, exist_ok=True)
-
-        hdr_path = None
-        for filename in os.listdir(src_dir):
-            src_path = os.path.join(src_dir, filename)
-            dst_path = os.path.join(dst_dir, filename)
-            shutil.move(src_path, dst_path)
-            log(f"Moved {src_path} → {dst_path}")
-            hdr_path = dst_path  # Assume first HDR is result
-
-        if hdr_path is None:
+       # Use HDR directly from output/hdr
+        hdr_files = glob.glob("output/hdr/*.hdr")
+        if not hdr_files:
             raise FileNotFoundError("No HDR file produced.")
 
+        hdr_path = hdr_files[0]
+        log(f"Found HDR file: {hdr_path}")
         return hdr_path
+
 
     except Exception as e:
         log(f"Exception during processing: {e}")
