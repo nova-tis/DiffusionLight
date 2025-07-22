@@ -2,3 +2,4 @@ output/
 temp_inpaint_iterative/
 *.pyc
 models/
+input-image/
