@@ -82,3 +82,11 @@ def get_hdr(filename: str):
         "filename": os.path.basename(hdr_path),
         "hdr_base64": hdr_encoded
     })
+
+@app.get("/")
+def root():
+    return {"message": "Image processing API is running."}
+
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
